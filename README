@@ -1,0 +1,90 @@
+= Princess
+
+Princess is a Ruby on Rails plugin that wraps Prince [ http://princexml.com ]
+for easily generating beautiful pdfs using familiar HTML and CSS.
+
+Besides the typical uses for generating pdfs, Princess also makes it easy to 
+generate printable labels (mailing labels, name tags, etc) and automatically
+turning every page on your site into a printable PDF simply by adding '.pdf'
+to the end of the url.
+
+== Requirements
+
+Princess requires that you have Prince installed and accessible on your
+system. You can download a free trial/personal version for testing purposes
+at http://princexml.com .
+
+Princess was built and tested on Rails 2.0.2 and may not (probably won't) work
+with prior versions.
+
+== Alternatives and Acknowledgements
+
+Other Rails plugins that also wrap Prince;
+* Princely - [ http://www.mbleigh.com/plugins/princely-rails-prince-xml-wrapper ]
+
+This blog post by 'seth' at Subimage provided the inspiration and basis for
+Princess (and presumably Princely, as well).
+http://sublog.subimage.com/articles/2007/05/29/html-css-to-pdf-using-ruby-on-rails
+
+== Basic PDF Generation
+
+Use respond_to in your controller actions and define a pdf format. Within the format
+definition, call send_pdf and pass it appropirate arguments. For example...
+
+  respond_to do |format|
+    format.html #default
+		format.pdf do
+      send_pdf(
+        :template => 'prince_transcript.html.erb',
+        :stylesheet => 'prince_transcript',
+        :layout => 'transcript',
+        :filename => "#{@student.last_name}-transcript.pdf"
+      )
+    end
+  end
+
+== Creating Labels
+
+Princess comes with some built-in templates for generating standard labels
+(such as address labels, name tags, etc). To use this feature, simply pass the name
+of the built-in template in your send_pdf call (described above), a :collection argument
+containing a collection of objects to render, and a :partial argument defining a partial
+that describes the structure for individual labels.  For example...
+
+  respond_to do |format|
+    format.pdf do
+      send_pdf(
+        :template => :avery_5390,
+        :collection => @people,
+        :partial => 'conference_nametag'
+      )
+    end
+  end
+
+Creating new label formats not currently provided is as simple as copying one of
+the built in format templates and adjusting a few measurements in it. Detailed
+instructions are provided inside the 'avery_5390' template.
+
+== Auto Generating PDFs as 'print view' of normal HTML pages.
+
+Optionally, princess can turn every page on your site into a printable PDF simply
+by adding .pdf to the end of the URL. To enable this feature, add the following to
+the controller (or to application controller for site wide).
+
+  princess_provides_default_pdf
+
+If any of your controller actions define their own custom pdf file, such as with
+respond_to as described above in 'Basic PDF Generation', then that PDF will take
+precedence and the automatic/default PDF generation described in this section
+will not occur.
+
+You will probably also want to add a 'default_pdfs' directory to app/views/layouts.
+In it add the following and use just like normal layouts (add your own HTML and a
+<%= yield %>).
+
+  application.pdf.erb	
+  controller_name.pdf.erb
+
+== Copyright
+
+Copyright (c) 2008 Worldwide IDEA, Inc. [ http://www.wwidea.org ], released under the MIT license

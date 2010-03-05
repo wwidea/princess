@@ -1,0 +1,72 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style type='text/css'>
+      @page {
+        /* top, right, bottom and left page margin settings. */
+        /* Measure this with a good ruler. Tweak as necessary. */
+        /* You may not need to adjust these settings at all. */
+        margin: 0.5in 0.28125in 0.5in 0.15625in;
+      }
+      
+      div.princess_built_in_three_columns { columns: 3; column-gap: 0; }
+      
+      div.princess_built_in_label {
+        /* the height of individual labels. See 'Fine Tuning Label Height'. */ 
+        height: 0.7791in;  /* 0.9791 minus padding */
+        font-size: smaller;
+        padding: 0.1in;
+        page-break-inside: avoid;
+        overflow: hidden;
+      }
+      
+      /*
+       * Fine Tuning Label Height
+       * ------------------------
+       * Do not rely on the 'published' label size from the manufacturer. It's
+       * been 'rounded off' for marketing purposes. The precise number you need,
+       * measured in inches, likey extends out several decimal places to the right.
+       * 
+       * For instance, Avery® 5390 'Name Tags' have a marketed height of 2.25in.
+       * For your purposes here, the correct height is about 2.2083in. 
+       * 
+       * The easiest way to fine tune label height for a new label format is...
+       * 
+       * 1. Generate a pdf of sample data that will fill one page of labels, and count
+       * the number of rows on the page (no need to actually print it, yet).
+       * 
+       * 2. Count the number of rows on the generated page.
+       * 
+       * 3. Repeat steps 3a and 3b below, gradually diminishing the adjustment until
+       *    you are satisifed that the measurement is abolutely perfect... then repeat
+       *    steps 3a and 3b 10 more times.
+       *    
+       *   a. If the number of rows is **equal to or greater than** the number
+       *   that should actually appear on the page, slightly increase the height
+       *   (in small increments) until you have **one less** than the correct
+       *   number of rows. Then, reduce the amount of change, and do step 3b.
+       *   
+       *   b. If the number of rows is **less** then the number that should appear
+       *   on the page, slightly decrease the height (in small measuremnts)
+       *   until you have exactly the right number of rows. Then, reduce the
+       *   amount of change, and do step 3a.
+       * 
+       * 4. After you have printed several sheets of real data with your new template
+       *    and are thoroughly satisified that your dimensions are perfect, send your
+       *    template file to this plugin's admins so that we can include it for the
+       *    benefit of other users.
+       */
+    </style>
+  </head>
+  <body>
+    <div class='princess_built_in_three_columns'>
+      <!--
+        Princess passes the value you set :collection to as a generic
+        @pdf_collection, so leave the below line alone, and trust the Princess.
+      -->
+      <% @pdf_collection.each do |object| %>
+        <div class='princess_built_in_label'><%= render :partial => @pdf_partial, :object => object %></div>
+      <% end %>
+    </div>
+  </body>
+</html>
