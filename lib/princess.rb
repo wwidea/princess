@@ -89,4 +89,22 @@ module Princess
   def append_suffix(filename,suffix)
     return filename.match(/\.#{suffix}$/) ? filename.to_s : "#{filename}.#{suffix}" 
   end
+  
+  def princess_default_layout
+    pick_layout({})
+  end
+  
+  def princess_default_stylesheet
+    if File.exists?(RAILS_ROOT+"/public/stylesheets/#{params[:controller]}_default_pdf.css")
+      "#{params[:controller]}_default_pdf"
+    elsif File.exists?(RAILS_ROOT+"/public/stylesheets/application_default_pdf.css")
+      'application_default_pdf'
+    else
+      nil
+    end
+  end
+  
+  def princess_default_filename
+    "#{params[:controller]}_#{params[:action]}.pdf"
+  end
 end
