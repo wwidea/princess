@@ -44,7 +44,7 @@ module Princess
     @pdf_collection = opts.delete(:collection) if opts[:collection]
     @pdf_partial = opts.delete(:partial) if opts[:partial]
     unless RAILS_ENV == 'test'
-      @command_line_args = "--baseurl=#{request.env['HTTP_X_FORWARDED_PROTO'] == 'https' ? 'https' : 'http'}://#{request.env['SERVER_NAME']}#{RAILS_ENV == 'production' ? nil : ':'+(request.env['SERVER_PORT'].to_i+1).to_s}/"   #http://localhost:3001/"
+      @command_line_args = "--baseurl=#{request.protocol}#{request.host}#{RAILS_ENV == 'production' ? nil : ':'+(request.port+1).to_s}/"   #http://localhost:3001/"
     end
     
     # Set RAILS_ASSET_ID to blank string or rails appends some time after
