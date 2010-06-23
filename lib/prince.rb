@@ -24,7 +24,7 @@ class Prince #:nodoc:
     @exe_path = `which prince`.chomp
     @exe_path = '/usr/local/bin/prince' if @exe_path.blank?
     @style_sheets = ''
-  	@log_file = "#{RAILS_ROOT}/log/prince.log"
+    @log_file = "#{RAILS_ROOT}/log/prince.log"
   end
   
   # Sets stylesheets...

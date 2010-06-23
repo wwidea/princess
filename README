@@ -33,7 +33,7 @@ definition, call send_pdf and pass it appropirate arguments. For example...
 
   respond_to do |format|
     format.html #default
-		format.pdf do
+    format.pdf do
       send_pdf(
         :template => 'prince_transcript.html.erb',
         :stylesheet => 'prince_transcript',
@@ -82,7 +82,7 @@ You will probably also want to add a 'default_pdfs' directory to app/views/layou
 In it add the following and use just like normal layouts (add your own HTML and a
 <%= yield %>).
 
-  application.pdf.erb	
+  application.pdf.erb 
   controller_name.pdf.erb
 
 == Copyright
