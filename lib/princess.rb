@@ -1,11 +1,9 @@
 require 'prince'
-require 'princess_helper'
 require 'princess_provides_default_pdf'
 require 'timeout'
 module Princess
   def self.included( base ) #:nodoc:
     base.append_view_path File.expand_path(File.dirname(__FILE__) + '/../templates')
-    base.helper :princess
   end
 
   # Makes a pdf, returns it as data...
