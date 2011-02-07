@@ -2,6 +2,10 @@
 require 'rubygems'
 require 'bundler/setup'
 
+# simplecov
+require 'simplecov'
+SimpleCov.start 'rails'
+
 # rails constants
 RAILS_ROOT = File.dirname(__FILE__)
 RAILS_ENV = 'test'
