@@ -7,15 +7,18 @@ require 'simplecov'
 SimpleCov.start
 
 # rails constants
-RAILS_ROOT = File.dirname(__FILE__)
+# RAILS_ROOT = File.dirname(__FILE__)
 RAILS_ENV = 'test'
 
 # require rails
-require 'active_record'
-require 'active_support'
-require 'action_controller'
-require 'action_controller'
-require 'test_help'
+require 'rails/all'
+# Rails.root = File.dirname(__FILE__)
+# require 'active_record'
+# require 'active_support'
+# require 'action_controller'
+# require 'action_controller'
+Rails.application.root = File.dirname(__FILE__)
+require 'rails/test_help'
 
 # require princess
 $:.unshift(File.dirname(__FILE__) + '/../lib')
@@ -28,7 +31,7 @@ ActionController::Routing::Routes.reload rescue nil
 ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
 
 # logs
-RAILS_DEFAULT_LOGGER = Logger.new(File.join(RAILS_ROOT, '/log/test.log'))
+RAILS_DEFAULT_LOGGER = Logger.new(Rails.root.join('log', 'test.log'))
 RAILS_DEFAULT_LOGGER.level = Logger::DEBUG
 ActiveRecord::Base.logger = RAILS_DEFAULT_LOGGER
 ActionController::Base.logger = RAILS_DEFAULT_LOGGER
