@@ -4,7 +4,7 @@ require 'bundler/setup'
 
 # simplecov
 require 'simplecov'
-SimpleCov.start 'rails'
+SimpleCov.start
 
 # rails constants
 RAILS_ROOT = File.dirname(__FILE__)
