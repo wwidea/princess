@@ -2,6 +2,29 @@ require 'prince'
 require 'princess_provides_default_pdf'
 require 'timeout'
 module Princess
+  # Makes and sends a pdf to the browser
+  # 
+  # === Arguments
+  # Accepts any arguments that make_pdf accepts, plus...
+  # * :filename - The name of the generated pdf file to send to the
+  #   browser.  The '.pdf' suffix is optional.
+  def send_pdf(opts = {})
+    opts.reverse_merge!(:template => "#{controller_name}/#{action_name}",
+      :stylesheet => princess_default_stylesheet,
+      :layout => princess_default_layout,
+      :filename => princess_default_filename)
+    fn = opts.delete(:filename)
+    send_data(
+      make_pdf(opts),
+      :filename => append_suffix(fn, :pdf),
+      :type => 'application/pdf'
+    )
+  end
+  
+  #######
+  private
+  #######
+  
   # Makes a pdf, returns it as data...
   #
   # === Arguments
@@ -50,32 +73,11 @@ module Princess
     @template.template_format = :html
     html_string = render_to_string(opts)
     # Return the generated PDF file from our html string.
-    pdf = nil
     Timeout::timeout(21) do
-      pdf = prince.pdf_from_string(html_string, :command_line_args => @command_line_args) 
+      prince.pdf_from_string(html_string, :command_line_args => @command_line_args) 
     end
-    return pdf
   end
 
-  # Makes and sends a pdf to the browser
-  # 
-  # === Arguments
-  # Accepts any arguments that make_pdf accepts, plus...
-  # * :filename - The name of the generated pdf file to send to the
-  #   browser.  The '.pdf' suffix is optional.
-  def send_pdf(opts = {})
-    opts.reverse_merge!(:template => "#{controller_name}/#{action_name}",
-      :stylesheet => princess_default_stylesheet,
-      :layout => princess_default_layout,
-      :filename => princess_default_filename)
-    fn = opts.delete(:filename)
-    send_data(
-      make_pdf(opts),
-      :filename => append_suffix(fn,:pdf),
-      :type => 'application/pdf'
-    )
-  end
-  
   #appends the filename with the given suffix if necessary.
   # Examples:
   # * append_suffix(:tps_report,:pdf) => 'tps_report.pdf'

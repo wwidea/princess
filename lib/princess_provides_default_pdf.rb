@@ -43,12 +43,7 @@ module PrincessProvidesDefaultPdf#:nodoc:
         erase_render_results 
         respond_to do |format|
           format.pdf do
-            send_pdf(
-              :text => previously_rendered,
-              :stylesheet => princess_default_stylesheet,
-              :layout => princess_default_layout,
-              :filename => princess_default_filename
-            )
+            send_pdf(:text => previously_rendered)
           end
         end
       end
