@@ -16,7 +16,6 @@ require File.expand_path('../../init', __FILE__)
 
 class ApplicationController
   prepend_view_path File.expand_path('../../app/views', __FILE__)
-  prepend_view_path File.expand_path(RAILS_ROOT + '/app/views')
 end
 
 
