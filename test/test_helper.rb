@@ -1,40 +1,18 @@
-# bundler
-require 'rubygems'
-require 'bundler/setup'
+# princess rails app
+ENV['RAILS_ENV'] = 'test'
+require File.expand_path('../princess/config/environment', __FILE__)
 
 # simplecov
 require 'simplecov'
 SimpleCov.start
 
-# rails constants
-# RAILS_ROOT = File.dirname(__FILE__)
-RAILS_ENV = 'test'
-
-# require rails
-require 'rails/all'
-# Rails.root = File.dirname(__FILE__)
-# require 'active_record'
-# require 'active_support'
-# require 'action_controller'
-# require 'action_controller'
-Rails.application.root = File.dirname(__FILE__)
+# RailsEnvironment.root = File.dirname(__FILE__)
 require 'rails/test_help'
 
 # require princess
 $:.unshift(File.dirname(__FILE__) + '/../lib')
 require File.expand_path('../../init', __FILE__)
 
-# routes
-ActionController::Routing::Routes.reload rescue nil
-
-# database connection
-ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
-
-# logs
-RAILS_DEFAULT_LOGGER = Logger.new(Rails.root.join('log', 'test.log'))
-RAILS_DEFAULT_LOGGER.level = Logger::DEBUG
-ActiveRecord::Base.logger = RAILS_DEFAULT_LOGGER
-ActionController::Base.logger = RAILS_DEFAULT_LOGGER
 
 class ApplicationController < ActionController::Base
   prepend_view_path File.expand_path('../../app/views', __FILE__)
