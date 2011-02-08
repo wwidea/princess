@@ -36,15 +36,10 @@ end
 class ErbViewsTest < ActionController::TestCase
   
   def setup
-    setup_db
     prepop_db
     @controller = ErbArticlesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-  end
-  
-  def teardown
-    teardown_db
   end
   
   def test_which_prince_should_return_path_to_prince

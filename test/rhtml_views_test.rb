@@ -20,15 +20,10 @@ end
 
 class RhtmlViewsTest < ActionController::TestCase
   def setup
-    setup_db
     prepop_db
     @controller = RhtmlArticlesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-  end
-  
-  def teardown
-    teardown_db
   end
   
   def test_articles_index

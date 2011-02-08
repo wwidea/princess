@@ -1,4 +1,14 @@
 Princess::Application.routes.draw do
+  
+  resources :erb_articles do
+    member do
+      get :custom_one
+      get :custom_two
+    end
+  end
+  resources :rhtml_articles,  :only => [:index, :show]
+  resources :reports,         :only => :create
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
