@@ -3,7 +3,7 @@
 module ActionController #:nodoc:
   class Base #:nodoc:
     def render_for_file_with_princess_default_pdf(template_path, *args)
-      if params[:format] == 'pdf' and !template_exists?(template_path)
+      if params[:format] == 'pdf' and !does_template_exist?(template_path)
         template_path = default_template_name
       end
       @template.template_format = :html
@@ -13,10 +13,10 @@ module ActionController #:nodoc:
     
     def default_template_name_with_princess_default_pdf(*args)
       dtn = default_template_name_without_princess_default_pdf(*args)
-      if params[:format] == 'pdf' and !template_exists?(dtn)
-        if template_exists?(dtn+'.html.erb')
+      if params[:format] == 'pdf' and !does_template_exist?(dtn)
+        if does_template_exist?(dtn+'.html.erb')
           dtn += '.html.erb'
-        elsif template_exists?(dtn+'.rhtml')
+        elsif does_template_exist?(dtn+'.rhtml')
           dtn += '.rhtml'
         end
       end
@@ -28,7 +28,7 @@ module ActionController #:nodoc:
     private
     #######
     
-    def template_exists?(path)
+    def does_template_exist?(path)
       self.view_paths.find_template(path, response.template.template_format)
     rescue ActionView::MissingTemplate
       false
