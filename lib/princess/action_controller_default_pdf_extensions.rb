@@ -9,7 +9,7 @@ module ActionController #:nodoc:
       @template.template_format = :html
       render_for_file_without_princess_default_pdf(template_path, *args)
     end
-    alias_method_chain :render_for_file, :princess_default_pdf
+    # alias_method_chain :render_for_file, :princess_default_pdf
     
     def default_template_name_with_princess_default_pdf(*args)
       dtn = default_template_name_without_princess_default_pdf(*args)
@@ -22,7 +22,7 @@ module ActionController #:nodoc:
       end
       return dtn
     end
-    alias_method_chain :default_template_name, :princess_default_pdf
+    # alias_method_chain :default_template_name, :princess_default_pdf
     
     #######
     private
@@ -45,7 +45,7 @@ module ActionController #:nodoc:
         end
         respond_without_princess_default_pdf
       end
-      alias_method_chain :respond, :princess_default_pdf
+      # alias_method_chain :respond, :princess_default_pdf
     end
   end
 end
