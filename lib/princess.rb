@@ -70,7 +70,7 @@ module Princess
     
     # Override Rails attempt to look for .pdf.erb templates to render and
     # force it to look for the .html versions.
-    @template.template_format = :html
+    # @template.template_format = :html
     html_string = render_to_string(opts)
     # Return the generated PDF file from our html string.
     Timeout::timeout(21) do
@@ -87,7 +87,7 @@ module Princess
   end
   
   def princess_default_layout
-    pick_layout({})
+    # pick_layout({})
   end
   
   def princess_default_stylesheet
