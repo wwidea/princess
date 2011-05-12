@@ -6,6 +6,15 @@ require 'test_helper'
 #Controller who's views are all in the .html.erb format
 class ErbArticlesController < ActionController::Base
   
+  def show
+    @article = Article.find(params[:id])
+    
+    respond_to do |format|
+      format.html
+      format.pdf { render :pdf => {} }
+    end
+  end
+  
   def custom_one
     @article = Article.find(params[:id])
     respond_to do |format|
@@ -27,13 +36,24 @@ class ErbViewsTest < ActionController::TestCase
     @response   = ActionController::TestResponse.new
   end
   
-  def test_which_prince_should_return_path_to_prince
-    # why does this not work
-    assert `which prince`.match(/prince$/), "which prince returned - #{`which prince`.inspect}"
+  
+  # show
+  def test_should_get_show_and_return_html
+    get :show, :id => 1
+    assert_response :success
+    assert !@response.body.match(/^%PDF/)
   end
   
+  def test_should_generate_pdf_with_no_argugments
+    get :show, :id => 1, :format => 'pdf'
+    assert_response :success
+    assert @response.body.match(/^%PDF/)
+  end
+  
+  
+  # custom_one
   def test_articles_custom_one
-    get :custom_one, {:id => 1}
+    get :custom_one, :id => 1
     assert_select 'h1', 'Article1'
     get :custom_one, {:id => 1, :format => 'pdf'}
     assert @response.body.match(/^%PDF/)
