@@ -1,19 +1,10 @@
+#!/usr/bin/env ruby
+# encoding: UTF-8
+
 require 'test_helper'
 
 #Controller who's views are all in the .html.erb format
 class ErbArticlesController < ActionController::Base
-  prepend_view_path File.expand_path(RAILS_ROOT + '/app/views')
-  
-  def index
-    @articles = Article.find(:all)
-  end
-  
-  def show
-    @article = Article.find(params[:id])
-    respond_to do |format|
-      format.html
-    end
-  end
   
   def custom_one
     @article = Article.find(params[:id])
@@ -24,10 +15,6 @@ class ErbArticlesController < ActionController::Base
         :filename => "custom_one.pdf"
       }}
     end
-  end
-  
-  def custom_two
-    @article = Article.find(params[:id])
   end
 end
 
@@ -45,20 +32,6 @@ class ErbViewsTest < ActionController::TestCase
     assert `which prince`.match(/prince$/), "which prince returned - #{`which prince`.inspect}"
   end
   
-  # def test_articles_index
-  #   get :index
-  #   assert_select 'li', 'Article1'
-  #   get :index, {:format => 'pdf'}
-  #   assert @response.body.match(/^%PDF/)
-  # end
-  # 
-  # def test_articles_show
-  #   get :show, {:id => 1}
-  #   assert_select 'h1', 'Article1'
-  #   get :show, {:id => 1, :format => 'pdf'}
-  #   assert @response.body.match(/^%PDF/)
-  # end
-  
   def test_articles_custom_one
     get :custom_one, {:id => 1}
     assert_select 'h1', 'Article1'
@@ -66,12 +39,4 @@ class ErbViewsTest < ActionController::TestCase
     assert @response.body.match(/^%PDF/)
     assert(@response.body.length > 30000)
   end
-  
-  # def test_articles_custom_two
-  #   get :custom_two, {:id => 1}
-  #   assert_select 'h1', 'Article1'
-  #   get :custom_two, {:id => 1, :format => 'pdf'}
-  #   assert @response.body.match(/^%PDF/)
-  #   assert(@response.body.length > 30000)
-  # end
 end

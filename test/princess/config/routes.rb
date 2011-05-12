@@ -6,7 +6,6 @@ Princess::Application.routes.draw do
       get :custom_two
     end
   end
-  resources :rhtml_articles,  :only => [:index, :show]
   resources :reports,         :only => :create
   
   # The priority is based upon order of creation:
