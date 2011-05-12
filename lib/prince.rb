@@ -1,3 +1,6 @@
+#!/usr/bin/env ruby
+# encoding: UTF-8
+
 # = Prince XML Ruby interface. 
 # http://www.princexml.com
 #

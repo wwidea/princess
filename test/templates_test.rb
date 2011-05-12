@@ -1,3 +1,6 @@
+#!/usr/bin/env ruby
+# encoding: UTF-8
+
 require 'test_helper'
 
 class ReportsController < ApplicationController
@@ -23,9 +26,7 @@ class ReportsController < ApplicationController
     map = REPMAPS[params[:report][:format]]
 
     respond_to do |format|
-      format.pdf {
-        send_pdf(map.merge(:collection => %w(one two three four)))
-      }
+      format.pdf { render :pdf => map.merge(:collection => %w(one two three four)) }
     end
   end
 end
@@ -52,7 +53,7 @@ class ReportsControllerTest < ActionController::TestCase
   #######
   
   def write_response_to_file(name)
-    File.open(File.expand_path(RAILS_ROOT + "/test_created_pdfs/#{name}.pdf"), 'w+') do |file|
+    File.open(File.expand_path(RAILS_ROOT + "/../test_created_pdfs/#{name}.pdf"), 'w+', :external_encoding => "ASCII-8BIT") do |file|
       file << @response.body
     end
   end

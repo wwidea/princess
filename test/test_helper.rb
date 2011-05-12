@@ -1,3 +1,6 @@
+#!/usr/bin/env ruby
+# encoding: UTF-8
+
 # princess rails app
 ENV['RAILS_ENV'] = 'test'
 require File.expand_path('../princess/config/environment', __FILE__)

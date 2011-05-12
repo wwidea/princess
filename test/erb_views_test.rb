@@ -19,11 +19,10 @@ class ErbArticlesController < ActionController::Base
     @article = Article.find(params[:id])
     respond_to do |format|
       format.html #default
-      format.pdf do
-        send_pdf(
-          :template => 'erb_articles/alternate_custom_one.html.erb',
-          :filename => "custom_one.pdf")
-      end
+      format.pdf { render :pdf => {
+        :template => 'erb_articles/alternate_custom_one',
+        :filename => "custom_one.pdf"
+      }}
     end
   end
   
@@ -46,19 +45,19 @@ class ErbViewsTest < ActionController::TestCase
     assert `which prince`.match(/prince$/), "which prince returned - #{`which prince`.inspect}"
   end
   
-  def test_articles_index
-    get :index
-    assert_select 'li', 'Article1'
-    get :index, {:format => 'pdf'}
-    assert @response.body.match(/^%PDF/)
-  end
-  
-  def test_articles_show
-    get :show, {:id => 1}
-    assert_select 'h1', 'Article1'
-    get :show, {:id => 1, :format => 'pdf'}
-    assert @response.body.match(/^%PDF/)
-  end
+  # def test_articles_index
+  #   get :index
+  #   assert_select 'li', 'Article1'
+  #   get :index, {:format => 'pdf'}
+  #   assert @response.body.match(/^%PDF/)
+  # end
+  # 
+  # def test_articles_show
+  #   get :show, {:id => 1}
+  #   assert_select 'h1', 'Article1'
+  #   get :show, {:id => 1, :format => 'pdf'}
+  #   assert @response.body.match(/^%PDF/)
+  # end
   
   def test_articles_custom_one
     get :custom_one, {:id => 1}
@@ -68,11 +67,11 @@ class ErbViewsTest < ActionController::TestCase
     assert(@response.body.length > 30000)
   end
   
-  def test_articles_custom_two
-    get :custom_two, {:id => 1}
-    assert_select 'h1', 'Article1'
-    get :custom_two, {:id => 1, :format => 'pdf'}
-    assert @response.body.match(/^%PDF/)
-    assert(@response.body.length > 30000)
-  end
+  # def test_articles_custom_two
+  #   get :custom_two, {:id => 1}
+  #   assert_select 'h1', 'Article1'
+  #   get :custom_two, {:id => 1, :format => 'pdf'}
+  #   assert @response.body.match(/^%PDF/)
+  #   assert(@response.body.length > 30000)
+  # end
 end
