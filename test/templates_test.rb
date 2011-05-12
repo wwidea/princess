@@ -53,7 +53,7 @@ class ReportsControllerTest < ActionController::TestCase
   #######
   
   def write_response_to_file(name)
-    File.open(File.expand_path(RAILS_ROOT + "/../test_created_pdfs/#{name}.pdf"), 'w+', :external_encoding => "ASCII-8BIT") do |file|
+    File.open(File.expand_path("../test_created_pdfs/#{name}.pdf", __FILE__), 'w+', :external_encoding => "ASCII-8BIT") do |file|
       file << @response.body
     end
   end

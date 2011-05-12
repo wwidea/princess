@@ -68,7 +68,7 @@ module Princess
     if opts[:stylesheet] || opts[:stylesheets]
       prince.add_style_sheets(
         *(opts.delete(:stylesheets) || [opts.delete(:stylesheet)]).to_a.map do |sheet|
-           "#{RAILS_ROOT}/public/stylesheets/#{append_suffix(sheet,:css)}"
+           Rails.root.join('public', 'stylesheets', append_suffix(sheet, :css))
         end
       )
     end
@@ -76,8 +76,8 @@ module Princess
     #Extract collection for built in templates
     @pdf_collection = opts.delete(:collection) if opts[:collection]
     @pdf_partial = opts.delete(:partial) if opts[:partial]
-    unless RAILS_ENV == 'test'
-      @command_line_args = "--baseurl=#{request.protocol}#{request.host}#{RAILS_ENV == 'production' ? nil : ':'+(request.port+1).to_s}/"   #http://localhost:3001/"
+    unless Rails.env == 'test'
+      @command_line_args = "--baseurl=#{request.protocol}#{request.host}#{Rails.env == 'production' ? nil : ':'+(request.port+1).to_s}/"   #http://localhost:3001/"
     end
     
     # Set RAILS_ASSET_ID to blank string or rails appends some time after
@@ -107,9 +107,9 @@ module Princess
   end
   
   def princess_default_stylesheet
-    if File.exists?(RAILS_ROOT+"/public/stylesheets/#{params[:controller]}_default_pdf.css")
+    if File.exists?(Rails.root.join('public', 'stylesheets', "#{params[:controller]}_default_pdf.css"))
       "#{params[:controller]}_default_pdf"
-    elsif File.exists?(RAILS_ROOT+"/public/stylesheets/application_default_pdf.css")
+    elsif File.exists?(Rails.root.join('public', 'stylesheets', "application_default_pdf.css"))
       'application_default_pdf'
     else
       nil
