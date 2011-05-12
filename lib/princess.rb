@@ -1,6 +1,6 @@
 require 'prince'
-require 'princess_provides_default_pdf'
 require 'timeout'
+
 module Princess
   # Makes and sends a pdf to the browser
   # 

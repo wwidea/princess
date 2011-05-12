@@ -3,7 +3,6 @@ require 'test_helper'
 # Controller who's views are all in the .rhtml format
 class RhtmlArticlesController < ActionController::Base
   prepend_view_path File.expand_path(RAILS_ROOT + '/app/views')
-  princess_provides_default_pdf
   
   def index
     @articles = Article.find(:all)
