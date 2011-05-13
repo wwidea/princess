@@ -14,7 +14,6 @@ module Princess
     def send_pdf(options = {})
       options.reverse_merge!(
         :stylesheet => princess_default_stylesheet,
-        :layout => princess_default_layout,
         :filename => princess_default_filename)
 
       filename = options.delete(:filename)
@@ -88,11 +87,7 @@ module Princess
     def append_suffix(filename,suffix)
       return filename.match(/\.#{suffix}$/) ? filename.to_s : "#{filename}.#{suffix}" 
     end
-
-    def princess_default_layout
-      # pick_layout({})
-    end
-
+    
     def princess_default_stylesheet
       if File.exists?(Rails.root.join('public', 'stylesheets', "#{params[:controller]}_default_pdf.css"))
         "#{params[:controller]}_default_pdf"
