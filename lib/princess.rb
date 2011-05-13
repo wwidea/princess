@@ -11,9 +11,9 @@ Mime::Type.register "application/pdf", :pdf
 # add pdf render option
 # example:
 #  respnd_to do |format
-#    format.pdf { render :pdf => options_hash }
 #    format.pdf { render :pdf => true }
 #    format.pdf { render :pdf => 'template_name' }
+#    format.pdf { render :pdf => options_hash }
 #  end
 ActionController.add_renderer :pdf do |options, view_hash|
   
@@ -21,7 +21,7 @@ ActionController.add_renderer :pdf do |options, view_hash|
   
   # for true render the template for the current action
   if options == true
-    options = view_hash
+    options = {}
   # use string for template name
   elsif options.is_a?(String)
     options = { :template => options }
