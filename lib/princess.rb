@@ -11,16 +11,25 @@ Mime::Type.register "application/pdf", :pdf
 # add pdf render option
 # example:
 #  respnd_to do |format
-#    format.pdf { render :pdf => options }
+#    format.pdf { render :pdf => options_hash }
+#    format.pdf { render :pdf => true }
+#    format.pdf { render :pdf => 'template_name' }
 #  end
-ActionController.add_renderer :pdf do |template, options|
-  
-  Rails.logger.debug '****************************** PDF RENDERER START ************************************'
-  Rails.logger.debug template.inspect
-  Rails.logger.debug '****************************** PDF RENDERER 1 ************************************'
-  Rails.logger.debug options.inspect
-  Rails.logger.debug '****************************** PDF RENDERER END ************************************'
+ActionController.add_renderer :pdf do |options, view_hash|
   
   self.formats = [:html, :pdf]
-  send_pdf(template)
+  
+  # for true render the template for the current action
+  if options == true
+    options = view_hash
+  # use string for template name
+  elsif options.is_a?(String)
+    options = { :template => options }
+    # add view path prefix unless tempate is a fully qualifed path
+    options.merge!(:prefix => view_hash[:prefix]) unless options[:template].index('/')
+  end
+  
+  Rails.logger.debug "Sending PDF: #{options.inspect}"
+    
+  send_pdf(options)
 end

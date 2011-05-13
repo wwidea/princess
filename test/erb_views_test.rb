@@ -11,18 +11,15 @@ class ErbArticlesController < ActionController::Base
     
     respond_to do |format|
       format.html
-      format.pdf { render :pdf => {} }
+      format.pdf { render :pdf => true }
     end
   end
   
   def custom_one
     @article = Article.find(params[:id])
     respond_to do |format|
-      format.html #default
-      format.pdf { render :pdf => {
-        :template => 'erb_articles/alternate_custom_one',
-        :filename => "custom_one.pdf"
-      }}
+      format.html
+      format.pdf { render :pdf => 'alternate_custom_one', :filename => "custom_one.pdf" }
     end
   end
 end

@@ -11,15 +11,17 @@ module Princess
     # Accepts any arguments that make_pdf accepts, plus...
     # * :filename - The name of the generated pdf file to send to the
     #   browser.  The '.pdf' suffix is optional.
-    def send_pdf(opts = {})
-      opts.reverse_merge!(:template => "#{controller_name}/#{action_name}",
+    def send_pdf(options = {})
+      options.reverse_merge!(
         :stylesheet => princess_default_stylesheet,
         :layout => princess_default_layout,
         :filename => princess_default_filename)
-      fn = opts.delete(:filename)
+
+      filename = options.delete(:filename)
+
       send_data(
-        make_pdf(opts),
-        :filename => append_suffix(fn, :pdf),
+        make_pdf(options),
+        :filename => append_suffix(filename, :pdf),
         :type => 'application/pdf'
       )
     end
@@ -48,21 +50,21 @@ module Princess
     # * make_pdf(:stylesheet => :reports, ...)
     # * make_pdf(:stylesheets => [:transcript,:landscape,:fancy_tables], ...)
     # * make_pdf(:template => 'avery_5390', :collection => @people, :partial => 'person_nametag', ...)
-    def make_pdf(opts = {}) #template_path, pdf_name, landscape=false)
+    def make_pdf(options = {}) #template_path, pdf_name, landscape=false)
       prince = Princess::Prince.new()
 
       # Sets style sheets on PDF renderer.
-      if opts[:stylesheet] || opts[:stylesheets]
+      if options[:stylesheet] || options[:stylesheets]
         prince.add_style_sheets(
-          *(opts.delete(:stylesheets) || [opts.delete(:stylesheet)]).to_a.map do |sheet|
+          *(options.delete(:stylesheets) || [options.delete(:stylesheet)]).to_a.map do |sheet|
              Rails.root.join('public', 'stylesheets', append_suffix(sheet, :css))
           end
         )
       end
 
       #Extract collection for built in templates
-      @pdf_collection = opts.delete(:collection) if opts[:collection]
-      @pdf_partial = opts.delete(:partial) if opts[:partial]
+      @pdf_collection = options.delete(:collection) if options[:collection]
+      @pdf_partial = options.delete(:partial) if options[:partial]
       unless Rails.env == 'test'
         @command_line_args = "--baseurl=#{request.protocol}#{request.host}#{Rails.env == 'production' ? nil : ':'+(request.port+1).to_s}/"   #http://localhost:3001/"
       end
@@ -71,10 +73,8 @@ module Princess
       # to prevent file caching, fucking up local - disk requests.
       ENV["RAILS_ASSET_ID"] = ''
 
-      # Override Rails attempt to look for .pdf.erb templates to render and
-      # force it to look for the .html versions.
-      # @template.template_format = :html
-      html_string = render_to_string(opts)
+      # render html view
+      html_string = render_to_string(options)
       # Return the generated PDF file from our html string.
       Timeout::timeout(21) do
         prince.pdf_from_string(html_string, :command_line_args => @command_line_args) 
