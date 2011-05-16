@@ -82,10 +82,10 @@ module Princess
 
     #appends the filename with the given suffix if necessary.
     # Examples:
-    # * append_suffix(:tps_report,:pdf) => 'tps_report.pdf'
-    # * append_suffix('my_styles.css',:css) => 'my_styles.css'  
-    def append_suffix(filename,suffix)
-      return filename.match(/\.#{suffix}$/) ? filename.to_s : "#{filename}.#{suffix}" 
+    # * append_suffix(:tps_report, :pdf) => 'tps_report.pdf'
+    # * append_suffix('my_styles.css', :css) => 'my_styles.css'  
+    def append_suffix(filename, suffix)
+      return filename.match(/\.#{suffix}$/) ? filename.to_s : "#{filename}.#{suffix}"
     end
     
     def princess_default_stylesheet
