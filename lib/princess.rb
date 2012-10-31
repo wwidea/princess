@@ -6,8 +6,6 @@ require 'princess/generate_pdf'
 
 ActionController::Base.send(:include, Princess::GeneratePdf)
 
-Mime::Type.register "application/pdf", :pdf
-
 # add pdf render option
 # example:
 #  respnd_to do |format

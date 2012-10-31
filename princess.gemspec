@@ -9,8 +9,10 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/wwidea/princess"
   s.summary = %q{PrinceXML wrapper for Rails}
   s.description = %q{Princess is a Ruby on Rails plugin that wraps Prince [ http://princexml.com ]for easily generating beautiful pdfs using familiar HTML and CSS.}
-
-  s.add_development_dependency('rails','3.0.5')
+  
+  s.add_dependency "rails", ">= 3.2.0"
+  
+  s.add_development_dependency('rails','3.2.0')
   s.add_development_dependency('sqlite3','1.3.3')
   s.add_development_dependency('simplecov')
 
