@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.summary = %q{PrinceXML wrapper for Rails}
   s.description = %q{Princess is a Ruby on Rails plugin that wraps Prince [ http://princexml.com ]for easily generating beautiful pdfs using familiar HTML and CSS.}
   
-  s.add_dependency 'rails', '= 3.2.0', '>= 3.2.0'
+  s.add_dependency 'rails', '>= 3.2.0'
   
   s.add_development_dependency 'sqlite3', '~> 1.3 ', '>= 1.3.9'
   s.add_development_dependency 'simplecov'

@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     princess (0.5.2)
-      rails (>= 3.2.0, = 3.2.0)
+      rails (>= 3.2.0)
 
 GEM
   remote: http://rubygems.org/
